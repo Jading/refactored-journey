@@ -95,46 +95,46 @@ contract("BoraMetaToken", (accounts) => {
       );
     });
 
-    // owner attempts to mintTo to userB
-    it('should allow owner to mint', async () => {
-      const quantity = toBN(10);
-      await boraMetaToken.mintTo(userB, { from: owner });
-      // Check that the recipient got the correct quantity
-      // Token numbers are one higher than option numbers
-      const balanceUserA = await boraMetaToken.balanceOf(userA, toTokenId(vals.CLASS_COMMON));
-      console.log("balanceUserA: ", balanceUserA);
-      // assert.isOk(balanceUserA.eq(quantity));
-      // // Check that balance is correct
-      // const balanceOf = await boraMetaToken.balanceOf(owner, vals.CLASS_COMMON);
-      // assert.isOk(balanceOf.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(quantity)));
-      // // Check that total supply is correct
-      // const premintedRemaining = await boraMetaToken.balanceOf(owner, toTokenId(vals.CLASS_COMMON));
-      // assert.isOk(premintedRemaining.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(quantity)));
-    });
+  //   // owner attempts to mintTo to userB
+  //   it('should allow owner to mint', async () => {
+  //     const quantity = toBN(10);
+  //     await boraMetaToken.mintTo(userB, { from: owner });
+  //     // Check that the recipient got the correct quantity
+  //     // Token numbers are one higher than option numbers
+  //     const balanceUserA = await boraMetaToken.balanceOf(userA, toTokenId(vals.CLASS_COMMON));
+  //     console.log("balanceUserA: ", balanceUserA);
+  //     // assert.isOk(balanceUserA.eq(quantity));
+  //     // // Check that balance is correct
+  //     // const balanceOf = await boraMetaToken.balanceOf(owner, vals.CLASS_COMMON);
+  //     // assert.isOk(balanceOf.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(quantity)));
+  //     // // Check that total supply is correct
+  //     // const premintedRemaining = await boraMetaToken.balanceOf(owner, toTokenId(vals.CLASS_COMMON));
+  //     // assert.isOk(premintedRemaining.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(quantity)));
+  //   });
 
-    it('should allow proxy to mint', async () => {
-      const quantity = toBN(100);
-      //FIXME: move all quantities to top level constants
-      const total = toBN(110);
-      // await boraMetaToken.mintTo(userA, { from: proxyForOwner });
-      await boraMetaToken.mintTo(userA, { from: proxy.address });
-      // Check that the recipient got the correct quantity
-      const balanceUserA = await boraMetaToken.balanceOf(
-        userA,
-        toTokenId(vals.CLASS_COMMON)
-      );
-      assert.isOk(balanceUserA.eq(total));
-      // Check that balance is correct
-      const balanceOf = await boraMetaToken.balanceOf(owner, vals.CLASS_COMMON);
-      assert.isOk(balanceOf.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(total)));
-      // Check that total supply is correct
-      const premintedRemaining = await boraMetaToken.balanceOf(
-        owner,
-        toTokenId(vals.CLASS_COMMON)
-      );
-      assert.isOk(premintedRemaining.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(total)));
-    });
-  });
+  //   it('should allow proxy to mint', async () => {
+  //     const quantity = toBN(100);
+  //     //FIXME: move all quantities to top level constants
+  //     const total = toBN(110);
+  //     // await boraMetaToken.mintTo(userA, { from: proxyForOwner });
+  //     await boraMetaToken.mintTo(userA, { from: proxy.address });
+  //     // Check that the recipient got the correct quantity
+  //     const balanceUserA = await boraMetaToken.balanceOf(
+  //       userA,
+  //       toTokenId(vals.CLASS_COMMON)
+  //     );
+  //     assert.isOk(balanceUserA.eq(total));
+  //     // Check that balance is correct
+  //     const balanceOf = await boraMetaToken.balanceOf(owner, vals.CLASS_COMMON);
+  //     assert.isOk(balanceOf.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(total)));
+  //     // Check that total supply is correct
+  //     const premintedRemaining = await boraMetaToken.balanceOf(
+  //       owner,
+  //       toTokenId(vals.CLASS_COMMON)
+  //     );
+  //     assert.isOk(premintedRemaining.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(total)));
+  //   });
+  // });
 
 });
 
