@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  openseacreatures:
+    image: borametatoken
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+  dockerganache:
+    image: trufflesuite/ganache-cli:v6.12.2
+    ports:
+      - "8545:8545"
+  dockertruffle:
+    image: dockertruffle
+    build: 
+      context: .
+      dockerfile: Dockerfile.truffle
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/usr/src/app
+    entrypoint: sh
+    command: '-c "sleep 1d"'

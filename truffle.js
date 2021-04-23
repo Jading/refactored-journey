@@ -1,5 +1,5 @@
-const HDWalletProvider = require("truffle-hdwallet-provider");
-// const HDWalletProvider = require("@truffle/hdwallet-provider");
+// const HDWalletProvider = require("truffle-hdwallet-provider");
+const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 const MNEMONIC = process.env.MNEMONIC || process.env.PRIVATEKEY;
 
@@ -32,13 +32,19 @@ module.exports = {
     develop: {
       port: 9545,
       gas: 50000000,
-      network_id: "*", // Match any network id
+      network_id: "*",
     },
     development: {
       host: "localhost",
       port: 7545,
       gas: 5000000,
       network_id: "*", // Match any network id
+    },
+    docker_dev: {
+      host: "host.docker.internal",
+      port: 8545,
+      gas: 5000000,
+      network_id: "*", 
     },
     rinkeby: {
       provider: function () {

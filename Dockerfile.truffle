@@ -1,0 +1,6 @@
+FROM node:14.15-alpine
+RUN npm install -g truffle
+ENV NODE_ENV=production
+WORKDIR /usr/src/app
+EXPOSE 8080
+CMD /bin/sh

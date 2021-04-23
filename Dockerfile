@@ -1,8 +1,9 @@
-FROM node:12.18-alpine
-RUN apk add --no-cache git
+FROM node:14.15-alpine
+RUN yarn global add ganache-cli
+RUN apk add --no-cache git curl
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
 # COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 COPY . .
 RUN yarn
-CMD yarn truffle develop
+CMD /bin/sh
