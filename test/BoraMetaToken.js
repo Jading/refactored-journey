@@ -17,10 +17,6 @@ const LootBoxRandomness = artifacts.require(
 const BoraMetaToken = artifacts.require(
   "./BoraMetaToken.sol"
 );
-const TestForReentrancyAttack = artifacts.require(
-  "../contracts/TestForReentrancyAttack.sol"
-);
-
 
 /* Useful aliases */
 
@@ -57,8 +53,6 @@ contract("BoraMetaToken", (accounts) => {
     console.log("proxyForOwner: ", proxyForOwner);
     console.log("proxy.address: ", proxy.address);
 
-    // attacker = await TestForReentrancyAttack.new();
-    // await attacker.setFactoryAddress(boraMetaToken.address);
   });
 
   describe('#constructor()', () => {
