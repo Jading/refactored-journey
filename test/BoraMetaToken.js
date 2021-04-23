@@ -56,6 +56,7 @@ contract("BoraMetaToken", (accounts) => {
   });
 
   describe('#constructor()', () => {
+
     it('should set the contractURI to the supplied value', async () => {
       assert.equal(await boraMetaToken.contractURI(), CONTRACT_URI);
     });
@@ -65,27 +66,52 @@ contract("BoraMetaToken", (accounts) => {
     // it('should set proxyRegistryAddress to the supplied value', async () => {
     //   assert.equal(await boraMetaToken.proxyRegistryAddress(), proxy.address);
     // });
+
   });
 
   describe('#name()', () => {
+
     it('should return the correct name', async () => {
       assert.equal(
         await boraMetaToken.name(),
         'BORA Metaverse NFT'
       );
     });
+
   });
 
   describe('#symbol()', () => {
+
     it('should return the correct symbol', async () => {
       assert.equal(await boraMetaToken.symbol(), 'BMT');
     });
+
   });
 
   //NOTE: We test this early relative to its place in the source code as we
   //      mint tokens that we rely on the existence of in later tests here.
 
+  let toTokenId1 = "1";
   describe('#mintTo()', () => {
+
+    // owner attempts to mintTo to userB
+    it('should allow owner to mint', async () => {
+      const quantity = toBN(1);
+      await boraMetaToken.mintTo(userB, { from: owner });
+      // Check that the recipient got the correct quantity
+      // Token numbers are one higher than option numbers
+      const balanceUserA = await boraMetaToken.balanceOf(userB);
+      console.log("balanceUserA: ", balanceUserA);
+      console.log("quantity: ", quantity);
+      assert.isOk(balanceUserA.eq(quantity));
+      // // Check that balance is correct
+      // const balanceOf = await boraMetaToken.balanceOf(owner);
+      // assert.isOk(balanceOf.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(quantity)));
+      // // Check that total supply is correct
+      // const premintedRemaining = await boraMetaToken.balanceOf(owner);
+      // assert.isOk(premintedRemaining.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(quantity)));
+    });
+
     // userA attempts to mintTo to userB
     it('should not allow non-owner or non-operator to mint', async () => {
       await truffleAssert.fails(
@@ -95,46 +121,30 @@ contract("BoraMetaToken", (accounts) => {
       );
     });
 
-  //   // owner attempts to mintTo to userB
-  //   it('should allow owner to mint', async () => {
-  //     const quantity = toBN(10);
-  //     await boraMetaToken.mintTo(userB, { from: owner });
-  //     // Check that the recipient got the correct quantity
-  //     // Token numbers are one higher than option numbers
-  //     const balanceUserA = await boraMetaToken.balanceOf(userA, toTokenId(vals.CLASS_COMMON));
-  //     console.log("balanceUserA: ", balanceUserA);
-  //     // assert.isOk(balanceUserA.eq(quantity));
-  //     // // Check that balance is correct
-  //     // const balanceOf = await boraMetaToken.balanceOf(owner, vals.CLASS_COMMON);
-  //     // assert.isOk(balanceOf.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(quantity)));
-  //     // // Check that total supply is correct
-  //     // const premintedRemaining = await boraMetaToken.balanceOf(owner, toTokenId(vals.CLASS_COMMON));
-  //     // assert.isOk(premintedRemaining.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(quantity)));
-  //   });
+  });
 
-  //   it('should allow proxy to mint', async () => {
-  //     const quantity = toBN(100);
-  //     //FIXME: move all quantities to top level constants
-  //     const total = toBN(110);
-  //     // await boraMetaToken.mintTo(userA, { from: proxyForOwner });
-  //     await boraMetaToken.mintTo(userA, { from: proxy.address });
-  //     // Check that the recipient got the correct quantity
-  //     const balanceUserA = await boraMetaToken.balanceOf(
-  //       userA,
-  //       toTokenId(vals.CLASS_COMMON)
-  //     );
-  //     assert.isOk(balanceUserA.eq(total));
-  //     // Check that balance is correct
-  //     const balanceOf = await boraMetaToken.balanceOf(owner, vals.CLASS_COMMON);
-  //     assert.isOk(balanceOf.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(total)));
-  //     // Check that total supply is correct
-  //     const premintedRemaining = await boraMetaToken.balanceOf(
-  //       owner,
-  //       toTokenId(vals.CLASS_COMMON)
-  //     );
-  //     assert.isOk(premintedRemaining.eq(toBN(vals.MINT_INITIAL_SUPPLY).sub(total)));
-  //   });
-  // });
+  describe('#safeTransferFrom()', () => {
+
+    // previous owner attempts to transfer toTokenId1 to userA
+    it('should not allow non tokenOwner to transfer', async () => {
+      await truffleAssert.fails(
+        boraMetaToken.safeTransferFrom(userB, userA, toTokenId1, { from: owner }),
+        truffleAssert.ErrorType.revert,
+        'ERC721: transfer caller is not owner nor approved.'
+      );
+    });
+
+    // userB attempts to transfer toTokenId1 to userA
+    it('should allow tokenOwner to transfer', async () => {
+      await boraMetaToken.safeTransferFrom(userB, userA, toTokenId1, { from: userB });
+    });
+
+    // // proxyAddress attempts to transfer toTokenId1 back to userB
+    // it('should allow proxyAddress to transfer', async () => {
+    //   await boraMetaToken.safeTransferFrom(userA, userB, toTokenId1, { from: proxy.address });
+    // });
+
+  });
 
 });
 
@@ -187,3 +197,29 @@ contract("BoraMetaToken", (accounts) => {
   //       );
   //     });
   // });
+
+
+  // 'approve(address,uint256)'
+  // 'balanceOf(address)'
+  // 'baseURI()'
+  // 'getApproved(uint256)'
+  // 'isApprovedForAll(address,address)'
+  // 'isOwner()'
+  // 'mintTo(address)'
+  // 'name()'
+  // 'owner()'
+  // 'ownerOf(uint256)'
+  // 'renounceOwnership()'
+  // 'safeTransferFrom(address,address,uint256)'
+  // 'safeTransferFrom(address,address,uint256,bytes)'
+  // 'setApprovalForAll(address,bool)'
+  // 'supportsInterface(bytes4)'
+  // 'symbol()'
+  // 'tokenByIndex(uint256)'
+  // 'tokenOfOwnerByIndex(address,uint256)'
+  // 'tokenURI(uint256)'
+  // 'totalSupply()'
+  // 'transferFrom(address,address,uint256)'
+  // 'transferOwnership(address)'
+  // 'baseTokenURI()'
+  // 'contractURI()'

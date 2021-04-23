@@ -1,13 +1,13 @@
 version: '3.4'
 
 services:
-  openseacreatures:
-    image: borametatoken
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: production
+  # openseacreatures:
+  #   image: borametatoken
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   environment:
+  #     NODE_ENV: production
   dockerganache:
     image: trufflesuite/ganache-cli:v6.12.2
     ports:
