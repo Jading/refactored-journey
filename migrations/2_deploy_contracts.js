@@ -1,4 +1,4 @@
-const BoraMetaToken = artifacts.require("./BoraMetaToken.sol");
+const BoraMetaToken = artifacts.require("./BoraMetaToken.sol"); //test
 
 // const DEPLOY_BORAMETATOKEN = process.env.DEPLOY_BORAMETATOKEN;
 const DEPLOY_BORAMETATOKEN = true;
