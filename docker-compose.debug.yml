@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  openseacreatures:
-    image: openseacreatures
+  borametatoken:
+    image: borametatoken
     build:
       context: .
       dockerfile: ./Dockerfile

@@ -47,11 +47,8 @@ contract("BoraMetaToken", (accounts) => {
     // boraMetaToken = await BoraMetaToken.deployed();
 
     proxy = await MockProxyRegistry.new();
-    await proxy.setProxy(owner, proxyForOwner);
+    await proxy.setProxy(userA, proxyForOwner);
     boraMetaToken = await BoraMetaToken.new(proxy.address);
-
-    console.log("proxyForOwner: ", proxyForOwner);
-    console.log("proxy.address: ", proxy.address);
 
   });
 
@@ -101,8 +98,6 @@ contract("BoraMetaToken", (accounts) => {
       // Check that the recipient got the correct quantity
       // Token numbers are one higher than option numbers
       const balanceUserA = await boraMetaToken.balanceOf(userB);
-      console.log("balanceUserA: ", balanceUserA);
-      console.log("quantity: ", quantity);
       assert.isOk(balanceUserA.eq(quantity));
       // // Check that balance is correct
       // const balanceOf = await boraMetaToken.balanceOf(owner);
@@ -125,7 +120,7 @@ contract("BoraMetaToken", (accounts) => {
 
   describe('#safeTransferFrom()', () => {
 
-    // previous owner attempts to transfer toTokenId1 to userA
+    // non tokenOwner attempts to transfer toTokenId1 to userA
     it('should not allow non tokenOwner to transfer', async () => {
       await truffleAssert.fails(
         boraMetaToken.safeTransferFrom(userB, userA, toTokenId1, { from: owner }),
@@ -139,10 +134,10 @@ contract("BoraMetaToken", (accounts) => {
       await boraMetaToken.safeTransferFrom(userB, userA, toTokenId1, { from: userB });
     });
 
-    // // proxyAddress attempts to transfer toTokenId1 back to userB
-    // it('should allow proxyAddress to transfer', async () => {
-    //   await boraMetaToken.safeTransferFrom(userA, userB, toTokenId1, { from: proxy.address });
-    // });
+    // proxyAddress attempts to transfer toTokenId1 back to userB
+    it('should allow proxyAddress to transfer', async () => {
+      await boraMetaToken.safeTransferFrom(userA, userB, toTokenId1, { from: proxyForOwner });
+    });
 
   });
 
@@ -199,27 +194,27 @@ contract("BoraMetaToken", (accounts) => {
   // });
 
 
-  // 'approve(address,uint256)'
-  // 'balanceOf(address)'
-  // 'baseURI()'
-  // 'getApproved(uint256)'
-  // 'isApprovedForAll(address,address)'
-  // 'isOwner()'
-  // 'mintTo(address)'
-  // 'name()'
-  // 'owner()'
-  // 'ownerOf(uint256)'
-  // 'renounceOwnership()'
-  // 'safeTransferFrom(address,address,uint256)'
-  // 'safeTransferFrom(address,address,uint256,bytes)'
-  // 'setApprovalForAll(address,bool)'
-  // 'supportsInterface(bytes4)'
-  // 'symbol()'
-  // 'tokenByIndex(uint256)'
-  // 'tokenOfOwnerByIndex(address,uint256)'
-  // 'tokenURI(uint256)'
-  // 'totalSupply()'
-  // 'transferFrom(address,address,uint256)'
-  // 'transferOwnership(address)'
-  // 'baseTokenURI()'
-  // 'contractURI()'
+  // approve(address,uint256)
+  // balanceOf(address)
+  // baseURI()
+  // getApproved(uint256)
+  // isApprovedForAll(address,address)
+  // isOwner()
+  // mintTo(address)
+  // name()
+  // owner()
+  // ownerOf(uint256)
+  // renounceOwnership()
+  // safeTransferFrom(address,address,uint256)
+  // safeTransferFrom(address,address,uint256,bytes)
+  // setApprovalForAll(address,bool)
+  // supportsInterface(bytes4)
+  // symbol()
+  // tokenByIndex(uint256)
+  // tokenOfOwnerByIndex(address,uint256)
+  // tokenURI(uint256)
+  // totalSupply()
+  // transferFrom(address,address,uint256)
+  // transferOwnership(address)
+  // baseTokenURI()
+  // contractURI()

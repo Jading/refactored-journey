@@ -67,6 +67,7 @@ module.exports = {
     reporterOptions: {
       currency: "USD",
       gasPrice: 2,
+      url: rinkebyNodeUrl
     },
   },
   compilers: {
