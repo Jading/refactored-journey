@@ -1,7 +1,7 @@
-// const HDWalletProvider = require("truffle-hdwallet-provider");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
-const MNEMONIC = process.env.MNEMONIC || process.env.PRIVATEKEY;
+const MNEMONIC = process.env.MNEMONIC;
+const PRIVATEKEY = process.env.PRIVATEKEY;
 
 const NODE_API_KEY = process.env.INFURA_KEY || process.env.ALCHEMY_KEY;
 const isInfura = !!process.env.INFURA_KEY;
@@ -12,9 +12,10 @@ const needsNodeAPI =
     process.env.npm_config_argv.includes("live"));
 
 console.log("MNEMONIC: ", MNEMONIC);
+console.log("PRIVATEKEY: ", PRIVATEKEY);
 console.log("NODE_API_KEY: ", NODE_API_KEY);
 
-if ((!MNEMONIC || !NODE_API_KEY) && needsNodeAPI) {
+if (!((MNEMONIC || PRIVATEKEY) && NODE_API_KEY) && needsNodeAPI) {
   console.error("Please set a mnemonic and ALCHEMY_KEY or INFURA_KEY.");
   process.exit(0);
 }
@@ -47,17 +48,33 @@ module.exports = {
       network_id: "*", 
     },
     rinkeby: {
-      provider: function () {
-        return new HDWalletProvider(MNEMONIC, rinkebyNodeUrl);
-      },
+      provider: () => new HDWalletProvider({
+        // mnemonic: {
+        //   phrase: MNEMONIC,
+        //   // password: "mnemonicpassword"
+        // },
+        privateKeys: [PRIVATEKEY],
+        providerOrUrl: rinkebyNodeUrl,
+        numberOfAddresses: 10,
+        shareNonce: true,
+        // derivationPath: "m/44'/137'/0'/0/"
+      }),
       gas: 5000000,
-      network_id: "*",
+      network_id: "*", 
     },
     live: {
       network_id: 1,
-      provider: function () {
-        return new HDWalletProvider(MNEMONIC, mainnetNodeUrl);
-      },
+      provider: () => new HDWalletProvider({
+        mnemonic: {
+          phrase: MNEMONIC,
+          // password: "mnemonicpassword"
+        },
+        // privateKeys: [PRIVATEKEY, ...],
+        providerOrUrl: mainnetNodeUrl,
+        numberOfAddresses: 1,
+        shareNonce: true,
+        // derivationPath: "m/44'/137'/0'/0/"
+      }),
       gas: 5000000,
       gasPrice: 5000000000,
     },
@@ -66,8 +83,7 @@ module.exports = {
     reporter: "eth-gas-reporter",
     reporterOptions: {
       currency: "USD",
-      gasPrice: 2,
-      url: rinkebyNodeUrl
+      gasPrice: 2
     },
   },
   compilers: {

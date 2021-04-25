@@ -17,7 +17,8 @@ contract ProxyRegistry {
 contract ERC721Tradable is ERC721Full, Ownable {
     using Strings for string;
 
-    address proxyRegistryAddress;
+    // address proxyRegistryAddress;
+    address public proxyRegistryAddress;
     uint256 private _currentTokenId = 0;
 
     constructor(
