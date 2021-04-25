@@ -1,6 +1,7 @@
 pragma solidity ^0.5.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
 import "@openzeppelin/contracts/ownership/Ownable.sol";
 import "./Strings.sol";
 
@@ -14,13 +15,12 @@ contract ProxyRegistry {
  * @title ERC721Tradable
  * ERC721Tradable - ERC721 contract that whitelists a trading address, and has minting functionality.
  */
-contract ERC721Tradable is ERC721Full, Ownable {
+contract ERC721Tradable is ERC721Full, Ownable, ERC721Burnable {
     using Strings for string;
 
     // address proxyRegistryAddress;
     address public proxyRegistryAddress;
     uint256 private _currentTokenId = 0;
-
     constructor(
         string memory _name,
         string memory _symbol,
@@ -54,12 +54,21 @@ contract ERC721Tradable is ERC721Full, Ownable {
         _currentTokenId++;
     }
 
-    function baseTokenURI() public pure returns (string memory) {
-        return "";
-    }
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
 
-    function tokenURI(uint256 _tokenId) external view returns (string memory) {
-        return Strings.strConcat(baseTokenURI(), Strings.uint2str(_tokenId));
+        string memory _tokenURI = _tokenURIs[tokenId];
+
+        // If there is no base URI, return the token URI.
+        if (bytes(_baseURI).length == 0) {
+            return _tokenURI;
+        }
+        // If both are set, concatenate the baseURI and tokenURI (via abi.encodePacked).
+        if (bytes(_tokenURI).length > 0) {
+            return string(abi.encodePacked(_baseURI, _tokenURI));
+        }
+        // If there is a baseURI but no tokenURI, concatenate the tokenID to the baseURI.
+        return string(abi.encodePacked(_baseURI, tokenId.toString()));
     }
 
     /**

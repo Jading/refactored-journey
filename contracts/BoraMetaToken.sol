@@ -4,8 +4,8 @@ import "./ERC721Tradable.sol";
 //import "@openzeppelin/contracts/ownership/Ownable.sol";
 
 /**
- * @title BoraMeta
- * BoraMeta - a contract for bora non-fungible meta token.
+ * @title BoraMetaToken
+ * BoraMetaToken - a contract for bora non-fungible meta token.
  */
 contract BoraMetaToken is ERC721Tradable {
     constructor(address _proxyRegistryAddress)
