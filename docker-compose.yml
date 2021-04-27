@@ -12,13 +12,14 @@ services:
     image: trufflesuite/ganache-cli:v6.12.2
     ports:
       - "8545:8545"
+    command: --gasLimit 10000000
   dockertruffle:
     image: dockertruffle
     build: 
       context: .
       dockerfile: Dockerfile.truffle
     ports:
-      - "8080:8080"
+      - 8080
     volumes:
       - ./:/usr/src/app
     entrypoint: sh

@@ -1,4 +1,5 @@
 FROM node:14.15-alpine
+RUN apk add --no-cache git curl
 RUN npm install -g truffle
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
