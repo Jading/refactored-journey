@@ -38,13 +38,13 @@ module.exports = {
     development: {
       host: "localhost",
       port: 7545,
-      gas: 5000000,
+      gas: 50000000,
       network_id: "*", // Match any network id
     },
     docker_dev: {
       host: "host.docker.internal",
       port: 8545,
-      gas: 5000000,
+      gas: 50000000,
       network_id: "*", 
     },
     rinkeby: {
@@ -59,7 +59,7 @@ module.exports = {
         shareNonce: true,
         // derivationPath: "m/44'/137'/0'/0/"
       }),
-      gas: 5000000,
+      gas: 50000000,
       network_id: "*", 
     },
     live: {

@@ -12,7 +12,8 @@ $ /usr/src/app> ▉
 ## Run local test
 
 ```bash
-truffle test
+truffle test --network docker_dev
+#truffle console --network docker_dev
 ```
 
 ## Connect to Rinkeby testnet
