@@ -14,10 +14,10 @@ contract BoraMetaToken is ERC721Tradable {
     {}
 
     function baseTokenURI() public pure returns (string memory) {
-        return "https://creatures-api.opensea.io/api/creature/";
+        return "https://test-nft.boraecosystem.com/api/bmt/";
     }
 
     function contractURI() public pure returns (string memory) {
-        return "https://creatures-api.opensea.io/contract/opensea-creatures";
+        return "https://test-nft.boraecosystem.com/api/bmt";
     }
 }

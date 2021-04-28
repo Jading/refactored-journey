@@ -21,6 +21,7 @@ contract ERC721Tradable is ERC721Full, Ownable, ERC721Burnable {
     // address proxyRegistryAddress;
     address public proxyRegistryAddress;
     uint256 private _currentTokenId = 0;
+
     constructor(
         string memory _name,
         string memory _symbol,
@@ -33,7 +34,7 @@ contract ERC721Tradable is ERC721Full, Ownable, ERC721Burnable {
      * @dev Mints a token to an address with a tokenURI.
      * @param _to address of the future owner of the token
      */
-    function mintTo(address _to) public onlyOwner {
+    function mint(address _to) public onlyOwner {
         uint256 newTokenId = _getNextTokenId();
         _mint(_to, newTokenId);
         _incrementTokenId();
@@ -54,21 +55,12 @@ contract ERC721Tradable is ERC721Full, Ownable, ERC721Burnable {
         _currentTokenId++;
     }
 
-    function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+    function baseTokenURI() public pure returns (string memory) {
+        return "";
+    }
 
-        string memory _tokenURI = _tokenURIs[tokenId];
-
-        // If there is no base URI, return the token URI.
-        if (bytes(_baseURI).length == 0) {
-            return _tokenURI;
-        }
-        // If both are set, concatenate the baseURI and tokenURI (via abi.encodePacked).
-        if (bytes(_tokenURI).length > 0) {
-            return string(abi.encodePacked(_baseURI, _tokenURI));
-        }
-        // If there is a baseURI but no tokenURI, concatenate the tokenID to the baseURI.
-        return string(abi.encodePacked(_baseURI, tokenId.toString()));
+    function tokenURI(uint256 _tokenId) external view returns (string memory) {
+        return Strings.strConcat(baseTokenURI(), Strings.uint2str(_tokenId));
     }
 
     /**

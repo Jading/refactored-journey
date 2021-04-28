@@ -87,20 +87,20 @@ contract("BoraMetaToken", (accounts) => {
   //      mint tokens that we rely on the existence of in later tests here.
 
   let toTokenId1 = "1";
-  describe('#mintTo()', () => {
+  describe('#mint()', () => {
 
-    // owner attempts to mintTo to userB
+    // owner attempts to mint to userB
     it('should allow owner to mint', async () => {
       const quantity = toBN(1);
-      await boraMetaToken.mintTo(userB, { from: owner });
+      await boraMetaToken.mint(userB, { from: owner });
       const balanceUserA = await boraMetaToken.balanceOf(userB);
       assert.isOk(balanceUserA.eq(quantity));
     });
 
-    // userA attempts to mintTo to userB
+    // userA attempts to mint to userB
     it('should not allow non-owner or non-operator to mint', async () => {
       await truffleAssert.fails(
-        boraMetaToken.mintTo(userB, { from: userA }),
+        boraMetaToken.mint(userB, { from: userA }),
         truffleAssert.ErrorType.revert,
         'Ownable: caller is not the owner'
       );
