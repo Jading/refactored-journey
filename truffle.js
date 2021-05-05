@@ -1,4 +1,13 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
+const HDWalletKlaytnProvider = require("truffle-hdwallet-provider-klaytn");
+const CaverExtKAS = require("caver-js-ext-kas");
+
+const kasNetworkName = process.env.MAINNET ? "mainnet" : "baobab";
+const kasAccesskey = process.env.KASACCESSKEY;
+const kasSecret = process.env.KASSECRET;
+const kasNodeUrl = "https://node-api.klaytnapi.com/v1/klaytn";
+
+const kasCaver = new CaverExtKAS(1001, kasAccesskey, kasSecret);
 
 const MNEMONIC = process.env.MNEMONIC;
 const PRIVATEKEY = process.env.PRIVATEKEY;
@@ -32,20 +41,20 @@ module.exports = {
   networks: {
     develop: {
       port: 9545,
-      gas: 50000000,
+      gas: 5000000,
       network_id: "*",
     },
     development: {
       host: "localhost",
       port: 7545,
-      gas: 50000000,
+      gas: 5000000,
       network_id: "*", // Match any network id
     },
     docker_dev: {
       host: "host.docker.internal",
       port: 8545,
-      gas: 50000000,
-      network_id: "*", 
+      gas: 5000000,
+      network_id: "*",
     },
     rinkeby: {
       provider: () => new HDWalletProvider({
@@ -60,7 +69,31 @@ module.exports = {
         // derivationPath: "m/44'/137'/0'/0/"
       }),
       gas: 50000000,
-      network_id: "*", 
+      network_id: "*",
+    },
+    baobab: {
+      networkCheckTimeout: 10000,
+      provider: () => {
+        const option = {
+          headers: [
+            { name: 'Authorization', value: 'Basic ' + Buffer.from(kasAccesskey + ':' + kasSecret).toString('base64') },
+            { name: 'x-chain-id', value: '1001' }
+          ],
+          keepAlive: false,
+        }
+
+        // Create a KeyringContainer instance
+        const keyringContainer = new kasCaver.keyringContainer();
+
+        // Create a keyring from private key
+        const keyring = keyringContainer.keyring.createFromPrivateKey(PRIVATEKEY);
+
+        // Add a keyring to the keyringContainer
+        keyringContainer.add(keyring);
+        return new HDWalletKlaytnProvider(PRIVATEKEY, kasCaver);
+      },
+      gas: 5000000,
+      network_id: "1001",
     },
     live: {
       network_id: 1,
