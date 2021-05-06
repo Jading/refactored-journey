@@ -2,9 +2,6 @@
 
 const truffleAssert = require('truffle-assertions');
 
-const testVals = require('../lib/testValuesCommon.js');
-const vals = require('../lib/valuesCommon.js');
-
 /* Contracts in this test */
 
 const MockProxyRegistry = artifacts.require(

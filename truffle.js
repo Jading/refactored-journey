@@ -1,7 +1,6 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const HDWalletKlaytnProvider = require("truffle-hdwallet-provider-klaytn");
-const Caver = require("caver-js");
-// const Caver = require("caver-js-ext-kas");
+const CaverExtKAS = require("caver-js-ext-kas");
 
 const MNEMONIC = process.env.MNEMONIC;
 const PRIVATEKEY = process.env.PRIVATEKEY;
@@ -36,6 +35,7 @@ const kasAccesskey = "KASK86TSDCD3C3SW3OMHSSZ0";
 const kasSecret = "oPa3M2Gj6vbWZ5zQJNVn2tiRIiXbIi6llqLCbFq";
 // const kasNodeUrl = `https://node-api.klaytnapi.com/v1/klaytn`;
 const kasNodeUrl = "https://node-api.klaytnapi.com/v1/klaytn";
+const kasCaver = new CaverExtKAS(1001, kasAccesskey, kasSecret);
 
 module.exports = {
   networks: {
