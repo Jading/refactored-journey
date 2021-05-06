@@ -1,5 +1,4 @@
-FROM node:14.15-alpine
-RUN apk add --no-cache git curl
+FROM nikolaik/python-nodejs:python3.8-nodejs14
 RUN npm install -g truffle
 ENV NODE_ENV=production
 WORKDIR /usr/src/app

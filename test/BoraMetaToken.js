@@ -26,7 +26,6 @@ const toBN = web3.utils.toBN;
 
 const toTokenId = optionId => optionId;
 
-
 contract("BoraMetaToken", (accounts) => {
   const TOTAL_OPTIONS = 9;
 
@@ -40,8 +39,8 @@ contract("BoraMetaToken", (accounts) => {
   let proxy;
   let attacker;
 
-  const URI_BASE = 'https://creatures-api.opensea.io';
-  const CONTRACT_URI = `${URI_BASE}/contract/opensea-creatures`;
+
+  const CONTRACT_URI = "https://test-nft.boraecosystem.com/api/bmt";
 
   before(async () => {
     // boraMetaToken = await BoraMetaToken.deployed();
