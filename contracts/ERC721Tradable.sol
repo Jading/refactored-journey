@@ -3,6 +3,8 @@ pragma solidity ^0.5.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721Full.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
 import "@openzeppelin/contracts/ownership/Ownable.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/access/Roles.sol";
 import "./Strings.sol";
 
 contract OwnableDelegateProxy {}
@@ -21,6 +23,26 @@ contract ERC721Tradable is ERC721Full, Ownable, ERC721Burnable {
     // address proxyRegistryAddress;
     address public proxyRegistryAddress;
     uint256 private _currentTokenId = 0;
+
+    Roles.Role private _operatorRole;
+    address[] private _operators;
+
+    event Mint(address indexed to, uint256 indexed tokenId, address indexed mintedBy);
+    event Burn(uint256 indexed tokenId, address indexed burnedBy);
+
+    event OperatorAdded(address indexed newOperator);
+    event OperatorRemoved(address indexed exOperator);
+
+    event TokenLockedStateChanged(uint256 indexed tokenId, bool flag);
+    mapping(uint256 => bool) internal _tokenLocked;
+
+    mapping(uint256 => uint256) internal _tokenIdToServiceIdMapping;
+
+    uint256 private _mintCount = 0;
+
+    // bool integrate_with_opensea = false;
+    // string private SCVersion = '1.2';
+    string private _contractURI = "";
 
     constructor(
         string memory _name,

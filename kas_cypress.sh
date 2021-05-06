@@ -4,6 +4,5 @@ export PRIVATEKEY="0xf6336587e022c31e434ef9f02ea68c862f4eae96d17c36c3339727862a4
 export KASACCESSKEY="KASKVW0IC8S5UYHGUXWHNCJD"
 export KASSECRET="gVg70oISmpMXTNY/4NfiVY246KMgVLm3/tcrZKFA"
 
-
-truffle deploy --network baobab
-# truffle console --network baobab
+# truffle deploy --network kas_cypress
+truffle console --network kas_cypress

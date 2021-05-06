@@ -1,7 +1,4 @@
-const BoraMetaToken = artifacts.require("./BoraMetaToken.sol"); //test1
-
-// const DEPLOY_BORAMETATOKEN = process.env.DEPLOY_BORAMETATOKEN;
-const DEPLOY_BORAMETATOKEN = true;
+const BoraMetaToken = artifacts.require("./BoraMetaToken.sol");
 
 module.exports = async (deployer, network, addresses) => {
   // OpenSea proxy registry addresses for rinkeby and mainnet.
@@ -12,8 +9,5 @@ module.exports = async (deployer, network, addresses) => {
     proxyRegistryAddress = "0xa5409ec958c83c3f309868babaca7c86dcb077c1";
   }
 
-  if (DEPLOY_BORAMETATOKEN) {
-    console.log("triggerd!!");
-    await deployer.deploy(BoraMetaToken, proxyRegistryAddress, {gas: 5000000});
-  }
+  await deployer.deploy(BoraMetaToken, proxyRegistryAddress, {gas: 5000000});
 };

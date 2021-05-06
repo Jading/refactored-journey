@@ -24,3 +24,14 @@ services:
       - ./:/usr/src/app
     entrypoint: sh
     command: '-c "sleep 1d"'
+  # dockerhenesis:
+  #   image: dockerhenesis
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile.henesis
+  #   ports:
+  #     - 8080
+  #   volumes:
+  #     - ./:/usr/src/app
+  #   entrypoint: sh
+  #   command: '-c "sleep 1d"'

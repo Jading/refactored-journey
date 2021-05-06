@@ -1,6 +1,7 @@
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const HDWalletKlaytnProvider = require("truffle-hdwallet-provider-klaytn");
-const CaverExtKAS = require("caver-js-ext-kas");
+// const CaverExtKAS = require("caver-js-ext-kas");
+const Caver = require("caver-js");
 
 const MNEMONIC = process.env.MNEMONIC;
 const PRIVATEKEY = process.env.PRIVATEKEY;
@@ -18,7 +19,7 @@ console.log("PRIVATEKEY: ", PRIVATEKEY);
 console.log("NODE_API_KEY: ", NODE_API_KEY);
 
 if (!((MNEMONIC || PRIVATEKEY) && NODE_API_KEY) && needsNodeAPI) {
-  console.error("Please set a mnemonic and ALCHEMY_KEY or INFURA_KEY.");
+  console.error("Please set a mnemonic or privatekey and ALCHEMY_KEY or INFURA_KEY.");
   process.exit(0);
 }
 
@@ -31,11 +32,10 @@ const mainnetNodeUrl = isInfura
   : "https://eth-mainnet.alchemyapi.io/v2/" + NODE_API_KEY;
 
 const kasNetworkName = process.env.MAINNET ? "mainnet" : "baobab";
-const kasAccesskey = "KASK86TSDCD3C3SW3OMHSSZ0";
-const kasSecret = "oPa3M2Gj6vbWZ5zQJNVn2tiRIiXbIi6llqLCbFq";
-// const kasNodeUrl = `https://node-api.klaytnapi.com/v1/klaytn`;
+const kasAccesskey = process.env.KASACCESSKEY;
+const kasSecret = process.env.KASSECRET;
 const kasNodeUrl = "https://node-api.klaytnapi.com/v1/klaytn";
-const kasCaver = new CaverExtKAS(1001, kasAccesskey, kasSecret);
+// const kasCaver = new CaverExtKAS(1001, kasAccesskey, kasSecret);
 
 module.exports = {
   networks: {
@@ -71,7 +71,7 @@ module.exports = {
       gas: 5000000,
       network_id: "*",
     },
-    baobob: {
+    kas_baobab: {
       networkCheckTimeout: 10000,
       provider: () => {
         const option = {
@@ -83,8 +83,8 @@ module.exports = {
         }
         return new HDWalletKlaytnProvider(PRIVATEKEY, new Caver.providers.HttpProvider(kasNodeUrl, option))
       },
-      gas: 5000000,
       network_id: "1001",
+      gas: 5000000,
     },
     live: {
       network_id: 1,
@@ -102,10 +102,19 @@ module.exports = {
       gas: 5000000,
       gasPrice: 5000000000,
     },
-    cypress: {
-      networkCheckTimeout: 100000,
+    kas_cypress: {
+      networkCheckTimeout: 10000,
+      provider: () => {
+        const option = {
+          headers: [
+            { name: 'Authorization', value: 'Basic ' + Buffer.from(kasAccesskey + ':' + kasSecret).toString('base64') },
+            { name: 'x-chain-id', value: '8217' }
+          ],
+          keepAlive: false,
+        }
+        return new HDWalletKlaytnProvider(PRIVATEKEY, new Caver.providers.HttpProvider(kasNodeUrl, option))
+      },
       network_id: 8217,
-      provider: () => new HDWalletKlaytnProvider(PRIVATEKEY, kasNodeUrl),
       gas: 5000000,
       gasPrice: 5000000000,
     },

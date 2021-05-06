@@ -4,7 +4,7 @@
   "description": "BORA Meta Token's smart contracts.",
   "scripts": {
     "ganache-cli": "ganache-cli -d -p 7545 --gasLimit=10000000",
-    "test": "DEPLOY_ALL=1 truffle test"
+    "test": "truffle test"
   },
   "author": "sungjae@way2bit.com",
   "license": "ISC",
