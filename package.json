@@ -4,7 +4,7 @@
   "description": "BORA Meta Token's smart contracts.",
   "scripts": {
     "ganache-cli": "ganache-cli -d -p 7545 --gasLimit=10000000",
-    "test": "truffle test"
+    "test": "sh local_provider.sh"
   },
   "author": "sungjae@way2bit.com",
   "license": "ISC",
@@ -13,7 +13,6 @@
   },
   "homepage": "https://github.com/Jading/refactored-journey#readme",
   "dependencies": {
-    "@0x/subproviders": "^2.1.4",
     "@openzeppelin/contracts": "^2.5.1",
     "@truffle/hdwallet-provider": "1.2.6",
     "caver-js-ext-kas": "^1.1.2",

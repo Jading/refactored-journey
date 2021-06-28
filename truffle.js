@@ -83,7 +83,7 @@ module.exports = {
         }
         return new HDWalletKlaytnProvider(PRIVATEKEY, new Caver.providers.HttpProvider(kasNodeUrl, option))
       },
-      network_id: "1001",
+      network_id: 1001,
       gas: 5000000,
     },
     live: {
@@ -123,7 +123,8 @@ module.exports = {
     reporter: "eth-gas-reporter",
     reporterOptions: {
       currency: "USD",
-      gasPrice: 2
+      gasPrice: 2,
+      // url: web3.currentProvider.connection.url
     },
   },
   compilers: {

@@ -5,5 +5,7 @@ export KASACCESSKEY="KASKVW0IC8S5UYHGUXWHNCJD"
 export KASSECRET="gVg70oISmpMXTNY/4NfiVY246KMgVLm3/tcrZKFA"
 
 
-# truffle deploy --network kas_baobab
-truffle console --network kas_baobab
+# truffle deploy --verbose-rpc --network kas_baobab
+truffle test --verbose-rpc --network kas_baobab
+# truffle console --verbose-rpc --network kas_baobab
+# truffle debug --verbose-rpc --network kas_baobab
